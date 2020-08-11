@@ -1,6 +1,6 @@
 console.log("Loaded the JavaScrip")
-var apiKey = "56f2a20c9d09108cad8cf49dd4894374";
-var recentSearches = [];
+var apiKey = "56f2a20c9d09108cad8cf49dd4894374"
+var recentSearches = []
 recentSearches = JSON.parse(localStorage.getItem("Search History"))
 if (recentSearches === undefined || recentSearches === null){
     recentSearches = [];
@@ -15,17 +15,17 @@ function displaySearchHistory() {
     $('#searchHistory').text("");
     for (let i = 0; i < recentSearches.length; i++) {
         const element = recentSearches[i];
-        $('#searchHistory').prepend("<li class='historyItem'  onclick='currentForecast(\"" + element + "\")'>" + element + '</li>');
+        $('#searchHistory').prepend("<li class='historyItem'  onclick='currentForecast(\"" + element + "\")'>" + element + '</li>')
     }
 }
 
 $("#inputSearch").on("click", function () {
-    var userInput = $("#userInputField").val();
-    console.log(userInput);
-    currentForecast(userInput);
-    fiveDayForecast(userInput);
-    recentSearches.push(userInput);
-    localStorage.setItem("Search History", JSON.stringify(recentSearches));
+    var userInput = $("#userInputField").val()
+    console.log(userInput)
+    currentForecast(userInput)
+    fiveDayForecast(userInput)
+    recentSearches.push(userInput)
+    localStorage.setItem("Search History", JSON.stringify(recentSearches))
     displaySearchHistory()
 })
 
@@ -39,19 +39,31 @@ function currentForecast(cityname) {
         console.log(apiFunction)
         var lat = apiFunction.coord.lat
         var lon = apiFunction.coord.lon
-        $("#city-name").html(apiFunction.name)
-        $("#currentForecast").html(`
-        <h5>${currentDate}</h5>
-        <h6>Temp: ${apiFunction.main.temp}</h6>
-        <p>Wind Speed: ${apiFunction.wind.speed}</p>
-        <p>Description: ${apiFunction.weather[0].description}</p>
-        <img src="https://openweathermap.org/img/wn/${apiFunction.weather[0].icon}@2x.png">
-        <p>Humidity: ${apiFunction.main.humidity}</p>
-        <p>Longitude: ${lon}</p>
-        <p>Lattitude: ${lat}</p>
-        `)
-
-    })
+            $("#city-name").html(apiFunction.name)
+            $("#currentForecast").html(`
+            <h5>${currentDate}</h5>
+            <h6>Temp: ${apiFunction.main.temp}</h6>
+            <p>Wind Speed: ${apiFunction.wind.speed}</p>
+            <p>Description: ${apiFunction.weather[0].description}</p>
+            <img src="https://openweathermap.org/img/wn/${apiFunction.weather[0].icon}@2x.png">
+            <p>Humidity: ${apiFunction.main.humidity}</p>
+            <p>Longitude: ${lon}</p>
+            <p>Lattitude: ${lat}</p>
+            `)
+        var uvUrl = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+        $.ajax({
+            method: "GET",
+            url: uvUrl,
+            dataType: "json",
+          }).then(function (apiFunction) {
+            console.log(apiFunction);
+            $("#currentForecast").append(`
+           <p id="uv" class=""> UV Index: ${apiFunction.value}</p>
+            `) 
+            // if (apiFunction.value > "2"){}
+            
+          });
+    })    
 }
 
 function fiveDayForecast(cityname) {
@@ -73,6 +85,16 @@ function fiveDayForecast(cityname) {
             <img src="https://openweathermap.org/img/wn/${apiFunction.list[i].weather[0].icon}@2x.png">
             <p>Humidity: ${apiFunction.list[i].main.humidity}</p>
             </div>`)
+        var lat = apiFunction.city.coord.lat
+        var lon = apiFunction.city.coord.lon
+        var uvUrl = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+        $.ajax({
+            method: "GET",
+            url: uvUrl,
+            dataType: "json",
+          }).then(function (apiFunction) {
+            // console.log(apiFunction)
+          });
         }
 
     })
