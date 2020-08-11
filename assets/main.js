@@ -1,20 +1,29 @@
 console.log("Loaded the JavaScrip")
 var apiKey = "56f2a20c9d09108cad8cf49dd4894374";
 var recentSearches = [];
+recentSearches = JSON.parse(localStorage.getItem("Search History"))
+if (recentSearches === undefined || recentSearches === null){
+    recentSearches = [];
+}
+displaySearchHistory()
 
-$("#inputSearch").on("click", function () {
-    var userInput = $("#userInputField").val()
-    console.log(userInput)
-    currentForecast(userInput)
-    fiveDayForecast(userInput)
-    // localStorage.setItem("User Input", userInput)
-    recentSearches.push($("#userInputField").val());
+function displaySearchHistory() {
     $('#userInputField').val("");
     $('#searchHistory').text("");
-    $.each(recentSearches, function (index, value) {
-        $('#searchHistory').append("<li class='historyItem'  onclick='addtotextbox("+index+")'>" + value + '</li>');
-    });
+    for (let i = 0; i < recentSearches.length; i++) {
+        const element = recentSearches[i];
+        $('#searchHistory').prepend("<li class='historyItem'  onclick='currentForecast(\"" + element + "\")'>" + element + '</li>');
+    }
+}
 
+$("#inputSearch").on("click", function () {
+    var userInput = $("#userInputField").val();
+    console.log(userInput);
+    currentForecast(userInput);
+    fiveDayForecast(userInput);
+    recentSearches.push(userInput);
+    localStorage.setItem("Search History", JSON.stringify(recentSearches));
+    displaySearchHistory()
 })
 
 function currentForecast(cityname) {
@@ -49,6 +58,7 @@ function fiveDayForecast(cityname) {
         url: queryVal
     }).then(function (apiFunction) {
         console.log(apiFunction)
+        $("#fiveDayForecast").empty()
         for (let i = 0; i < apiFunction.list.length; i++) {
             const myDate = new Date(apiFunction.list[i].dt_txt).toLocaleDateString();
             $("#fiveDayForecast").append(`<div class="card">
@@ -59,21 +69,7 @@ function fiveDayForecast(cityname) {
             <img src="https://openweathermap.org/img/wn/${apiFunction.list[i].weather[0].icon}@2x.png">
             <p>Humidity: ${apiFunction.list[i].main.humidity}</p>
             </div>`)
-
         }
 
     })
 }
-
-
-
-function searchFunction(data) {
-    
-    
-}
-
-function addtotextbox(id)
-{
-$('#userInputField').val(recentSearches[id]);
-}
-
