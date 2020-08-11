@@ -5,7 +5,10 @@ recentSearches = JSON.parse(localStorage.getItem("Search History"))
 if (recentSearches === undefined || recentSearches === null){
     recentSearches = [];
 }
+
 displaySearchHistory()
+currentForecast(recentSearches[recentSearches.length-1])
+fiveDayForecast(recentSearches[recentSearches.length-1])
 
 function displaySearchHistory() {
     $('#userInputField').val("");
@@ -59,7 +62,8 @@ function fiveDayForecast(cityname) {
     }).then(function (apiFunction) {
         console.log(apiFunction)
         $("#fiveDayForecast").empty()
-        for (let i = 0; i < apiFunction.list.length; i++) {
+        // starting at noon, and incrementing by 8 because that is 24 hours
+        for (let i = 2; i < apiFunction.list.length; i+=8) {
             const myDate = new Date(apiFunction.list[i].dt_txt).toLocaleDateString();
             $("#fiveDayForecast").append(`<div class="card">
             <h5>${myDate}</h5>
