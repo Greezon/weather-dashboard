@@ -51,7 +51,7 @@ function currentForecast(cityname) {
             <p>Longitude: ${lon}</p>
             <p>Lattitude: ${lat}</p>
             `)
-        var uvUrl = `http://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
+        var uvUrl = `https://api.openweathermap.org/data/2.5/uvi?appid=${apiKey}&lat=${lat}&lon=${lon}`
         $.ajax({
             method: "GET",
             url: uvUrl,
@@ -98,3 +98,5 @@ function fiveDayForecast(cityname) {
 
     })
 }
+
+
