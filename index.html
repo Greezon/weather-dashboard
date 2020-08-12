@@ -6,38 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
         integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <title>Document</title>
+    <link rel="stylesheet" href="./assets/style.css">
+    <title>E's Weather Forecast App</title>
 </head>
 
 <body>
+    <!-- Header Start -->
     <header>
         <h1 class="bg-dark text-light text-center">My Forecast app</h1>
     </header>
+    <!-- Header End -->
 
-    <div class="conainer col-10">
-        
-            <div class="col-md-6">
+    <!-- search section start -->
+    <div class="conainer">
+        <div class="row">
+            <div class="col-md-6" id="aside">
                 <input type="text" id="userInputField" placeholder="Truckee">
                 <button class="btn btn-info" id="inputSearch">Search</button>
-                <div style="border:1px solid green; width:43%; height:100px; overflow-y:scroll;"> <ul id="searchHistory"></ul> 
+                <div id="shs">
+                    <ul id="searchHistory"></ul>
                 </div>
             </div>
-       
+            <!-- search section end -->
 
-            
+            <!-- current forecast start -->
             <div class="col-md-6">
                 <h3 id="city-name"></h3>
-                <div id="currentForecast" class="container"></div>
+                <div id="currentForecast" class="card bg-dark text-light"></div>
             </div>
+        </div>
+        <!-- current forecast end -->
 
+        <!-- 5day forecast start -->
+        <div class="row">
             <div class="col-md-12">
-                <div class="col-md-3" id="fiveDayForecast"></div>
-            </div>   
-        
-        
-        
-            
-       
+                <div id="fiveDayForecast"></div>
+            </div>
+        </div>
+        <!-- 5 day forecast end -->
+
+        <!-- footer start -->
+        <footer class="bg-dark text-light text-center">
+            <h5>Ian N Astesana &copy;</h5>
+        </footer>
+        <!-- footer end -->
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"

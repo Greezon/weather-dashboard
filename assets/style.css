@@ -1,0 +1,35 @@
+#currentForecast{
+    width: 43%;
+    
+    
+}
+
+#fiveDayForecast{
+    display: flex;
+    padding-top: 2%;
+    
+}
+.fdf{
+    width: 20%;
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 5%;
+}
+#shs{
+    border:1px solid green; 
+    width:43%; 
+    height:99%; 
+    overflow-y:scroll;
+    padding-left: 5%; 
+}
+#aside{
+    padding-left: 2%;
+}
+
+.images{
+    width: 30%;
+}
